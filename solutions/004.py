@@ -1,7 +1,9 @@
-#!/usr/intel/bin/python3.6.3
+#!/usr/bin/python3
 
-import UsrIntel.R1
-import argparse, datetime
+import argparse
+import time
+from datetime import timedelta
+from typing import *
 from pathlib import Path
 
 
@@ -42,6 +44,13 @@ def fatal(msg, err_code=1):
     ))
     exit(err_code)
 
+def debug(msg):
+    if args.verbose:
+        print('{}-V-{} {}'.format(
+            Format.PURPLE, Format.END,
+            msg
+        ))
+
 def wide_help_formatter(formatter, w=120, h=36):
     try:
         kwargs = {'width': w, 'max_help_position': h}
@@ -55,19 +64,26 @@ def getArgs():
         add_help=False,
         formatter_class=wide_help_formatter(argparse.MetavarTypeHelpFormatter)
     )
-    ap.description = ''
+    ap.description = f'\033[1m{page}\033[0m:\n{problem}'
 
-    arg = ap.add_argument_group('Arguments')
+    args = ap.add_argument_group('Arguments')
 
-    flg = ap.add_argument_group('Flags')
-    flg.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS,
-                     help='Show this help message and exit.')
+    flgs = ap.add_argument_group('Flags')
+    flgs.add_argument('-v', '--verbose', action='store_true', default=False, help='Verbose mode -> print debug messages')
+    flgs.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS, help='Show this help message and exit.')
 
     return ap.parse_args()
 
-def main():
-    args = getArgs()
+
+def solve(args):
+    solution = None
+    return solution
 
 if __name__ == '__main__':
-    uniq = datetime.datetime.strftime('%m%d%y-%H%M%S')
-    main()
+    page = 'https://projecteuler.net/problem=4}'
+    problem = 'A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99. Find the largest palindrome made from the product of two 3-digit numbers.'
+    args = getArgs()
+    print(f'\033[1mPrompt\033[0m: {problem}\n')
+    tic = time.time(); solution = solve(args); toc = time.time()
+    if args.verbose: print()
+    print(f'[{timedelta(seconds=toc-tic)}] \033[1m\033[92manswer\033[0m: {solution}')
