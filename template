@@ -44,11 +44,11 @@ def fatal(msg, err_code=1):
     ))
     exit(err_code)
 
-def debug(*pargs, **kwargs):
+def debug(msg):
     if args.verbose:
-        print('{}-V-{}'.format(
+        print('{}-V-{} {}'.format(
             Format.PURPLE, Format.END,
-            *pargs, **kwargs
+            msg
         ))
 
 def helpFormatter(formatter, w=120, h=36):
