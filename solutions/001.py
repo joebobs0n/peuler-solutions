@@ -91,10 +91,9 @@ def solve(args):
     return sum(solution)
 
 if __name__ == '__main__':
-    page = 'https://projecteuler.net/problem=1}'
+    page = 'https://projecteuler.net/problem=1'
     problem = 'If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23. Find the sum of all the multiples of 3 or 5 below 1000.'
     args = getArgs()
-    print(f'\033[1mPrompt\033[0m: {problem}\n')
     tic = time.time(); solution = solve(args); toc = time.time()
     if args.verbose: print()
     print(f'[{timedelta(seconds=toc-tic)}] \033[1m\033[92manswer\033[0m: {solution}')

@@ -45,6 +45,6 @@ fi
 info "Creating solution script for problem number ${format_BOLD}${pnum}${format_END}... [${format_DARKCYAN}${outname}${format_END}]"
 prompt=$( curl "https://projecteuler.net/problem=${pnum}" 2> /dev/null | grep 'problem_content' -A 100 | grep '</div><br>' -B 100 -m 1 | sed 's|<sup>|^|g' | sed -E 's|</?[^>]+>||g' | tr '\n' ' ' | sed -E 's/(^\s+|\s+$)//g' )
 cp ${tfile} ${outname}
-sed -i "s/\#pnum\#/${pnum}}/g" ${outname}
+sed -i "s/\#pnum\#/${pnum}/g" ${outname}
 sed -i "s/\#prompt\#/${prompt}/g" ${outname}
 echo "\nPrompt: ${prompt}"

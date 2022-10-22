@@ -2,6 +2,7 @@
 
 import argparse
 import time
+from functools import reduce
 from datetime import timedelta
 from typing import *
 from pathlib import Path
@@ -51,7 +52,7 @@ def debug(msg):
             msg
         ))
 
-def wide_help_formatter(formatter, w=120, h=36):
+def helpFormatter(formatter, w=120, h=36):
     try:
         kwargs = {'width': w, 'max_help_position': h}
         formatter(None, **kwargs)
@@ -62,12 +63,12 @@ def wide_help_formatter(formatter, w=120, h=36):
 def getArgs():
     ap = argparse.ArgumentParser(
         add_help=False,
-        formatter_class=wide_help_formatter(argparse.MetavarTypeHelpFormatter)
+        formatter_class=helpFormatter(argparse.MetavarTypeHelpFormatter)
     )
-    ap.description = f'\033[1m{page}\033[0m:\n{problem}'
+    ap.description = f'\033[1m{page}\033[0m:  {problem}'
 
     args = ap.add_argument_group('Arguments')
-    args.add_argument('test', type=int)
+    args.add_argument('-m', '--highestmultiple', type=int, default=20, help='Biggest consecutive multiple for number. Default=20')
 
     flgs = ap.add_argument_group('Flags')
     flgs.add_argument('-v', '--verbose', action='store_true', default=False, help='Verbose mode -> print debug messages')
@@ -76,24 +77,32 @@ def getArgs():
     return ap.parse_args()
 
 
-def isPalindrome(num: int) -> bool:
-    num = str(num)
-    debug(num)
-    for i in range(int((len(num)+1)/2)):
-        lchar, rchar = num[i], num[-1*(i+1)]
-        debug(f'{lchar} :: {rchar}')
-        if lchar != rchar:
-            return False
-    return True
+def factorize(val):
+    x, y = 2, int(val/2)
+    while x <= y:
+        y = val/x
+        if y%1 == 0:
+            return (factorize(y) + [x])
+        else:
+            x += 1
+    return [int(val)]
 
 def solve(args):
-    solution = None
-    debug(isPalindrome(args.test))
-    return solution
+    solution = []
+    factors = []
+    for ii in range(1, args.highestmultiple+1):
+        factors.append(factorize(ii))
+    debug(f'factors of 1-N: {factors}')
+    for i in reversed(factors):
+        for j in set(i):
+            if solution.count(j) < i.count(j):
+                solution.extend([j]*(i.count(j) - solution.count(j)))
+    debug(f'smallest set of factors: {sorted(solution)}')
+    return reduce(lambda x,y: x*y, solution)
 
 if __name__ == '__main__':
-    page = 'https://projecteuler.net/problem=4'
-    problem = 'A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 x 99. Find the largest palindrome made from the product of two 3-digit numbers.'
+    page = 'https://projecteuler.net/problem=5'
+    problem = '2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder. What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?'
     args = getArgs()
     tic = time.time(); solution = solve(args); toc = time.time()
     if args.verbose: print()

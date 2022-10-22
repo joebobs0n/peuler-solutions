@@ -90,10 +90,9 @@ def solve(args):
     return max(factorize(args.target))
 
 if __name__ == '__main__':
-    page = 'https://projecteuler.net/problem=3}'
+    page = 'https://projecteuler.net/problem=3'
     problem = 'The prime factors of 13195 are 5, 7, 13 and 29. What is the largest prime factor of the number 600851475143 ?'
     args = getArgs()
-    print(f'\033[1mPrompt\033[0m: {problem}\n')
     tic = time.time(); solution = solve(args); toc = time.time()
     if args.verbose: print()
     print(f'[{timedelta(seconds=toc-tic)}] \033[1m\033[92manswer\033[0m: {solution}')

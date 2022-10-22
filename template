@@ -44,14 +44,14 @@ def fatal(msg, err_code=1):
     ))
     exit(err_code)
 
-def debug(msg):
+def debug(*pargs, **kwargs):
     if args.verbose:
-        print('{}-V-{} {}'.format(
+        print('{}-V-{}'.format(
             Format.PURPLE, Format.END,
-            msg
+            *pargs, **kwargs
         ))
 
-def wide_help_formatter(formatter, w=120, h=36):
+def helpFormatter(formatter, w=120, h=36):
     try:
         kwargs = {'width': w, 'max_help_position': h}
         formatter(None, **kwargs)
@@ -62,9 +62,9 @@ def wide_help_formatter(formatter, w=120, h=36):
 def getArgs():
     ap = argparse.ArgumentParser(
         add_help=False,
-        formatter_class=wide_help_formatter(argparse.MetavarTypeHelpFormatter)
+        formatter_class=helpFormatter(argparse.MetavarTypeHelpFormatter)
     )
-    ap.description = f'\033[1m{page}\033[0m:\n{problem}'
+    ap.description = f'\033[1m{page}\033[0m:  {problem}'
 
     args = ap.add_argument_group('Arguments')
 
@@ -86,7 +86,6 @@ if __name__ == '__main__':
     page = 'https://projecteuler.net/problem=#pnum#'
     problem = '#prompt#'
     args = getArgs()
-    print(f'\033[1mPrompt\033[0m: {problem}\n')
     tic = time.time(); solution = solve(args); toc = time.time()
     if args.verbose: print()
     print(f'[{timedelta(seconds=toc-tic)}] \033[1m\033[92manswer\033[0m: {solution}')
