@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+from symbol import factor
 import time
 from functools import reduce
 from datetime import timedelta
@@ -77,7 +78,7 @@ def getArgs():
     return ap.parse_args()
 
 
-def factorize(val):
+def factorize(val: int) -> List[int]:
     x, y = 2, int(val/2)
     while x <= y:
         y = val/x
@@ -87,7 +88,7 @@ def factorize(val):
             x += 1
     return [int(val)]
 
-def solve(args):
+def solve():
     solution = []
     factors = []
     for ii in range(1, args.highestmultiple+1):
@@ -104,6 +105,6 @@ if __name__ == '__main__':
     page = 'https://projecteuler.net/problem=5'
     problem = '2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder. What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?'
     args = getArgs()
-    tic = time.time(); solution = solve(args); toc = time.time()
+    tic = time.time(); solution = solve(); toc = time.time()
     if args.verbose: print()
     print(f'[{timedelta(seconds=toc-tic)}] \033[1m\033[92manswer\033[0m: {solution}')

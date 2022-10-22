@@ -75,7 +75,7 @@ def getArgs():
     return ap.parse_args()
 
 
-def solve(args):
+def solve():
     solution = None
     #! --- SOLUTION SCRIPT HERE -------------------------------------------------------------------
 
@@ -86,6 +86,6 @@ if __name__ == '__main__':
     page = 'https://projecteuler.net/problem=#pnum#'
     problem = '#prompt#'
     args = getArgs()
-    tic = time.time(); solution = solve(args); toc = time.time()
+    tic = time.time(); solution = solve(); toc = time.time()
     if args.verbose: print()
     print(f'[{timedelta(seconds=toc-tic)}] \033[1m\033[92manswer\033[0m: {solution}')
