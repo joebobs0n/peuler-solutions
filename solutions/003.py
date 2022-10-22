@@ -80,7 +80,7 @@ def factorize(val):
     while x <= y:
         y = val/x
         if y%1 == 0:
-            debug(f'x: {x} | y: {y}')
+            debug(f'x: {x:12d} | y: {y:12.0f}')
             return (factorize(y) + [x])
         else:
             x += 1

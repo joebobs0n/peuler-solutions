@@ -80,13 +80,12 @@ def solve(args):
     x,y,z = 0, 0, 1
     vals = []
     while z < args.target:
-        debug(f'x: {x:5d} | y: {y:5d} | z: {z:5d}')
+        debug(f'x: {x:8d} | y: {y:8d} | z: {z:8d}')
         if z%2 == 0:
             vals.append(z)
         x=y
         y=z
         z = x+y
-    vals = list(set(vals))
     debug(f'evens: {vals}')
     return sum(list(set(vals)))
 
